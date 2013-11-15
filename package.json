@@ -1,0 +1,9 @@
+{
+  "name" : "VFILES-LIVE",
+  "description" : "providing real-time sychronization for chatting on vfiles",
+  "version" : "0.0.1",
+  "dependencies" : {
+    "socket.io" : "0.9.16",
+    "redis": "0.7.3"
+  }
+}
