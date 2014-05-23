@@ -8,9 +8,15 @@ if (process.env.REDISTOGO_URL) {
 }
 
 redis.subscribe('rt-change');
+redis.on('message', function(channel, message){
+  if(message.room) {
+    io.sockets.in(message.room).emit('rt-change', message);
+  } else {
+    io.sockets.emit('rt-change', message);
+  }
+});
 
-io.on('connection', function(socket){
-  redis.on('message', function(channel, message){
-    socket.emit('rt-change', JSON.parse(message));
-  });
+io.sockets.on('connection', function(socket){
+  socket.on('subscribe', function(data) { socket.join(data); })
+  socket.on('unsubscribe', function(data) { socket.leave(data); })
 });
